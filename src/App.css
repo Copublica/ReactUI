@@ -1,0 +1,605 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat Alternates", sans-serif;
+  
+}
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.main-container{
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes zoom {
+  0% {
+    transform: scale(0.5);
+    background: linear-gradient(
+      136.14deg,
+      rgba(59, 32, 225, 0.39) -72.16%,
+      #3b20e1 -72.14%,
+      #15057b 8.97%,
+      #090232 53.32%,
+      #000000 153.2%
+    );
+  }
+
+  100% {
+    background: linear-gradient(
+      136.14deg,
+      rgba(59, 32, 225, 0.39) -72.16%,
+      #3b20e1 -72.14%,
+      #15057b 8.97%,
+      #090232 53.32%,
+      #000000 153.2%
+    );
+
+    transform: scale(1);
+  }
+}
+.card-title {
+  animation: zoom 2s;
+  background: linear-gradient(
+      136.14deg,
+      rgba(59, 32, 225, 0.39) -72.16%,
+      #3b20e1 -72.14%,
+      #15057b 8.97%,
+      #090232 53.32%,
+      #000000 153.2%
+    );
+  line-height: 32px;
+  font-size: 26px;
+}
+#TitlePage{
+  height: 100dvh;
+  background: linear-gradient(
+      136.14deg,
+      rgba(59, 32, 225, 0.39) -72.16%,
+      #3b20e1 -72.14%,
+      #15057b 8.97%,
+      #090232 53.32%,
+      #000000 153.2%
+    );
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: aliceblue;
+    font-size: 24px;
+    font-weight: 700;
+}
+/* .fade-in {
+  animation: fadeInAnimation 1s ease forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+} */
+.fade-in {
+  animation: slideInRightAnimation 0.5s ease forwards;
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+@keyframes slideInRightAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(10%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
+.title-text {
+  font-size: 24px;
+  font-weight: 700;
+}
+.card {
+  background-color: transparent;
+}
+.form-group{
+  margin-bottom: 1rem;
+  position: relative;
+}
+.form-group i{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+.form-group input{
+  background-color: rgb(214, 214, 214);
+}
+.label-title{
+  font-size: 8px;
+}
+
+.label-title input{
+ width: 12px;
+ height: 12px;
+}
+.text-primary{
+  color: #14325e !important;
+}
+.btn-primary{
+  background-color:#14325e !important;
+}
+.text-danger {
+color: #df7300 !important;
+}
+.btn-login{
+  width: 100%;
+  border-radius: .5rem;
+}
+.social-media img{
+  width: 26px;
+  cursor: pointer;
+}
+.social-media-icons{
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+}
+.switch-login p{
+  font-size: .8rem;
+}
+#loginpage{
+  width: 360px;
+}
+
+#loginpage,#display,#AboutMilla, #MainPage,#Welcome {
+  animation: slideInRightAnimation 0.5s ease forwards;
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+@keyframes slideInRightAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(10%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+#registerImg{
+  width: 180px;
+}
+
+.welcomeScreen{
+  border-radius: 20px;
+  margin: 0 auto;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+}
+
+#carouselExampleIndicators{
+  margin: 40px 15px;
+
+}
+.carousel-indicators{
+  margin: 0px !important;
+  right: 50 !important;
+  bottom: -25% !important;
+  justify-content: flex-start !important;
+  left:16px !important;
+}
+.carousel-img{
+  /* margin: 10px; */
+  padding: 10px;
+  width: 295px;
+  height: 295px;
+}
+
+.carousel-item h2{
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: 30px;
+  padding-left: 8px;
+}
+/* .carousel-indicators button {
+  background-color: black !important; 
+  border: 1px solid black; 
+}
+
+.carousel-indicators button.active {
+  background-color: red ;
+} */
+
+/*------------------------------------------- Add this CSS to your existing wlcm.css file */
+/* .carousel-indicators button {
+  background-color: black;
+  border: none; 
+  width: 10px;
+  height: 10px; 
+  margin: 0 5px;
+}
+
+.carousel-indicators .active {
+  background-color: red;
+} */
+.carousel-indicators .aio {
+  background-color: black !important; /* Set all indicators to black */
+  border: none !important; /* Remove default border */
+  border-radius: 20px !important;
+  width: 10px !important; /* Adjust width of the indicators */
+  height: 6px !important;  /* Adjust height of the indicators */
+  margin: 0 5px; /* Adjust margin between indicators */
+}
+
+.carousel-indicators .active {
+  background-color: red !important; /* Set active indicator to red */
+  width: 16px !important;
+}
+
+
+#carouselExampleIndicators{
+  border-radius: 10px;
+
+}
+.btn-welcome{
+  text-align: end;
+  width: 100%;
+  display: block;
+  padding: 60px;
+}
+
+.proceed-btn{
+  border:none;
+  /* cursor: pointer; */
+  width: 60px;
+  border-radius: 15px;
+  background: linear-gradient(136.14deg, rgba(59, 32, 225, 0.39) -72.16%, #3B20E1 -72.14%, #15057B 8.97%, #090232 53.32%, #000000 153.2%);
+  color: #fff;
+  font-size: 20px;
+  margin-left: 220px;
+  margin-top: 20px;
+  margin-bottom: 60px;
+}
+
+
+
+.hero-container{
+  /* border: 2px rgb(82, 80, 80) solid;*/
+  
+  
+  /* display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;  */
+
+
+  box-shadow: 6px 9px 19px 31px rgba(230, 230, 230, 1);
+  margin: 0 auto;
+  border-radius: 20px;
+  height: 100dvh;
+}
+
+.heroGreeting{
+  border-radius: 20px;
+
+  height: 100vh;
+  background-color: #f0f0f0;
+  padding: 10px 18px;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+}
+
+
+.heroGreeting h4{
+  font-size: 16px;
+  font-weight: 700;
+  /* margin-top: 5px; */
+}
+span{
+  color: #FF3D00;
+}
+.hero-text h2{
+  font-size: 30px;
+  font-weight: 700;
+  margin-top: 20px;
+}
+.hero-text p{
+  font-size: 11px;
+  color: rgb(88, 88, 88);
+
+}
+.motivational-box img{
+  width: 100%;
+}
+.little-carousels{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  overflow: hidden;
+
+}
+
+
+
+
+.convo-history{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+
+}
+.accordion1{
+  border-radius: 8px;
+  margin-bottom: 4px;
+  padding-left: 7px;
+  height: 30px;
+  background-color: #76DEBF;
+  color: #fff;
+  font-size: 11px;
+
+  display: flex;
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  align-items: center;
+
+  /* box-shadow: 10px 5px 5px rgb(0, 0, 1, 0.6); */
+}
+
+.accordion1 p{
+  margin-bottom: 0px;
+}
+
+#silderVoicebot{
+  height: 166px;
+  overflow-x: auto;
+  display: flex
+}
+
+
+
+
+/* -----------------------------About Mila---------------------------- */
+.mila-container{
+  box-shadow: 6px 9px 19px 31px rgba(230, 230, 230, 1);
+  margin: 0 auto;
+  border-radius: 20px;
+  height: 100dvh;
+  display: flex;
+  justify-content: space-between;
+}
+
+.aboutMila{
+  padding: 10px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.milaNav{
+  padding: 10px 10px 6px 0;
+  width: 100%;
+}
+.navbar-4{
+  display: flex;
+  flex-direction: row; 
+  align-items: center;
+  justify-content:space-between;
+}
+.back-button{
+  border: none;
+  border-radius: 50%;
+  background: radial-gradient(77.11% 77.11% at 50% 22.89%, rgba(255, 38, 0, 0.4) 0%, rgba(255, 38, 0, 0.32) 100%);
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  font-size: 22px;
+  box-shadow: 0 0 10px rgba(195, 38, 93, 0.6);
+}
+
+.mila-card{
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+}
+.mila-card h1{
+  font-size: 22px;
+  text-align: center;
+  margin-top: 0px;
+  font-weight: 700;
+}
+span{
+  color: #FF3D00;
+}
+.mila-card img{
+  width: 125px;
+}
+.mila-card p{
+  font-size: 13px;
+  color: rgb(88, 88, 88);
+  margin-top: 15px;
+  text-align: center;
+}
+
+.faq1{
+  border-radius: 8px;
+  margin-bottom: 10px;
+  padding-left: 7px;
+  background-color: #76DEBF;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.3);
+}
+.faq1 a{
+  text-decoration: none;
+  color: #fff;
+}
+.faq1 p{
+  font-size: 11px;
+  margin: 0px;
+  padding: 10px;
+}
+.mila-start-button{
+  background: linear-gradient(136.14deg, rgba(59, 32, 225, 0.39) -72.16%, #3B20E1 -72.14%, #15057B 8.97%, #090232 53.32%, #000000 153.2%);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  width: 170px;
+  height: 25px;
+  font-size: 10px;
+  
+} 
+a{
+  text-decoration: none;
+} 
+
+/* .faq{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+} */
+.faq-text h3{
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+#voicebotmilla{
+  width: 340px;
+  height: 90dvh;
+}
+#millacontent{
+  margin-top: 100px;
+}
+
+#mic-img{
+  margin-top: 200px;
+  width: 70px;
+}
+
+
+iframe{
+  display: block;
+    position: relative;
+    top: -8px !important;
+    left: -50px !important;
+    height: 45px;
+    width: 40px !important;
+    border: 0px;
+    margin: -2px -10px;
+}
+.S9gUrf-YoZ4jf{
+  opacity: 0;
+}
+#googleicons{
+position: absolute;
+top: 380px;
+left: 100px;
+z-index: -9;
+}
+#facebook{
+  left: 170px;
+  position:absolute;
+
+}
+#linkdin{
+  position: absolute;
+  left: 236px;
+}
+
+.from-group-voice{
+  opacity: 0;
+
+}
+.container-milla{
+  position: absolute;
+  top: 100px;
+  left: 26%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.mic-img{
+  margin-top: 200px;
+} 
+
+
+
+/*---------------voice ui---------------*/
+.voice-ui{
+  top: 0;
+  width: 380px !important;
+  height: 100dvh;
+  border-radius: 10px;
+ }
+
+.glow-effect {
+  position: relative;
+}
+
+.glow{
+  height: 200px;
+  width: 200px;
+  background-color: transparent;
+  position: absolute;
+  top: 78px;
+  left: 80px;
+  z-index: 0;
+  /* opacity: .3; */
+  border-radius: 50%;
+  box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.8);
+}
+
+
+.VoiceAni{
+  position: relative;
+  bottom: 0px;
+}
+#transcription{
+  overflow: auto;
+  height: 22dvh;
+}
