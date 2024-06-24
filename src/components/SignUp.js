@@ -36,12 +36,12 @@ function SignUp(){
           </div>
         </form>
      
-        <div className="switch-login mt-5">
-          <p className="text-center mt-2 h6">Already a member?<a href="" className="text-danger"> 
+        <div className="switch-login mt-2 mb-2">
+          <p className="text-center mt-2 h6">Already a member?
           <Link to="/LoginPage">Login in</Link>
           
           
-          </a></p>
+          </p>
         </div>
       </div>
     )

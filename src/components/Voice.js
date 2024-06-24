@@ -82,8 +82,6 @@ const Voice = () => {
 
   </div>
 
-  
-
     </div>
   );
 };

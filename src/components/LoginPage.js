@@ -5,10 +5,22 @@ import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 
 function LoginPage()
 {
+  const setCookie=(name, value, days)=> {
+    var expires = "";
+    if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+  }
+
+  
     return(
         <div className="container px-4" id="loginpage">
         <p className="title-text text-center font-weight-bold text-secondary">
-          Meet your <br />
+          Meet your 
+          <br />
           <span className="text-dark">Empathetic</span> companion
         </p>
         <p className="text-center text-danger mb-3">Let’s get started</p>
@@ -39,7 +51,11 @@ function LoginPage()
           onSuccess={credentialResponse => {
             const decodedCredential = jwtDecode(credentialResponse.credential);
             console.log(decodedCredential);
-            window.location.href = "/welcome"; 
+              // Setting cookies with user information
+              setCookie('name', decodedCredential.name, 70); // Expires in 7 days
+              setCookie('email', decodedCredential.email, 70);
+              setCookie('picture', decodedCredential.picture, 70);
+              window.location.href = "/welcome"; 
               }}
           onError={() => {
             console.log('Login Failed');
@@ -56,10 +72,11 @@ function LoginPage()
               </div>
           </div>
         </div>
-        <div className="switch-login mt-5">
-          <p className="text-center mt-2 h6">Don’t have an account? <a href="" className="text-danger">
+        <div className="switch-login mt-2">
+          <p className="text-center mt-2 h6">Don’t have an account? 
             <Link to="/SignUp">Sign up</Link> 
-            </a></p>
+            </p>
+           
         </div>
       </div>
     )

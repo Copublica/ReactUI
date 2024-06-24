@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Animation12 from './Animation13.json';
-import MicAni from "./mic13.json";
+import MicAni from "./mic21.json";
 import Lottie from 'lottie-react';
 import bgimg from './imgbg.jpg';
+import loadingSpiner from './spinner.json'
 import { Link } from "react-router-dom";
 const Display = () => {
-
+    console.log("test voicebot");
     const animation12Ref = useRef();
     const micAniRef = useRef();
 
@@ -17,11 +18,24 @@ const Display = () => {
     const stopAnimation = (ref) => {
         ref.current.stop();
     };
-
-
+    function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+          if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+      }
+      
+      const userName = getCookie('name');
+       
+    console.log(userName);
     const [inputData, setInputData] = useState({
         question: "",
-        username: "Ajay",
+        username: {userId},
+     
         language: "english"
     });
     const audioRef = useRef(null);
@@ -33,6 +47,7 @@ const Display = () => {
     ];
 
     const playRandomAudio = () => {
+       
         const randomIndex = Math.floor(Math.random() * audioFiles.length);
         const selectedAudio = audioFiles[randomIndex];
         const audioElement = audioRef.current;
@@ -49,7 +64,8 @@ const Display = () => {
     let lastTranscriptTime = Date.now();
     const alertDelay = 2500; // 3 seconds of silence before showing alert
     let finalTranscript = '';
-
+    const stopMicDelay = 10000;
+    
 
     const handleChange = (e) => {
         setInputData({
@@ -58,19 +74,21 @@ const Display = () => {
         });
     };
     var selectedLang="english";
-    var userId="Ajay"
+    var userId=userName
     const [messages, setMessages] = useState([
         { role: 'system', content: "Your name is Milla, you are You embody Milla, a fluent '"+selectedLang+"' an expert guidance. You meet with '"+userId+"' You are an AI agent who provides emotional and mental health support with counseling people struggling with emotions. You cannot claim to be a psychologist or a counsellor etc. You are an AI agent designed by COPUBLICA to provide people emotional and mental health support. Grounded in social-emotional learning CASEL framework, you create a safe space for clients to discuss feelings openly. You meet with '"+userId+"'. You ask their age, adapt speech accordingly, then inquire about their day to make them comfortable. You listen, maintain a positive tone and ask conversational questions to keep the discussion flowing. As clients confide in you, you validate feelings with empathy and mirror emotions to show understanding, explaining emotions can be hard. You help clients process emotions, staying focused on their feelings by clarifying academic/non-emotion questions are beyond your scope. After sharing issues, you ask how to help further provide coping strategies or discuss the situation. You listen closely, ask probing questions to understand better. Responses don't exceed 300 characters to keep discussions focused on initial emotional topics, ensuring dialogue remains helpful and relevant. You always aim to provide support. Irrespective of the language used by the '"+userId+"' you comprehend the dialog and reply in '"+selectedLang+"' When appropriate, you address '"+userId+"' by name in a warm manner to personalize the conversation." }
       ]);
     
 
     const handleSubmit = async (e) => {
+      
         const userMessage = { role: 'user', content: inputData.question};
         const newMessages = [...messages, userMessage];
         setMessages(newMessages);
         console.log("Run Submit= " + inputData.question);
+        document.getElementById('transcription').textContent = "Analyzing...";
         newWord = '';
-        document.getElementById("transcript").value = "";
+      
         e.preventDefault();
 
 
@@ -78,13 +96,13 @@ const Display = () => {
             const response = await axios.post(
                 'https://api.openai.com/v1/chat/completions',
                 {
-                  model: 'gpt-3.5-turbo',  // Specify the correct model here
+                  model: 'gpt-4',  // Specify the correct model here
                   messages: newMessages,
                 },
                 {
                   headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer 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`,  // Replace with your actual API key
+                    Authorization: `Bearer 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`,  // Replace with your actual API key
                   },
                 }
               );
@@ -98,11 +116,25 @@ const Display = () => {
               };
             if (assistantMessage) {
                 console.log("get llm answer " + response.data.choices[0].message.content,);
+                const deepgramApiKey = '6fa713b27411f9bef12b4aacf3f95f3f20e33304'; // Replace this with your Deepgram API key
+                const text = response.data.choices[0].message.content;
+          
+                const responses = await fetch('https://api.deepgram.com/v1/speak?model=aura-luna-en', {
+                    method: 'POST',
+                    headers: {
+                      'Authorization': `Token ${deepgramApiKey}`,
+                      'Content-Type': 'application/json',
+                      'accept': 'text/plain'
+                    },
+                    body: JSON.stringify({ text: text })
+                  });
                 // Make the second request to get the audio blob
-                const audioResponse = await axios.post('http://127.0.0.1:8000/answer', { answer: response.data.choices[0].message.content, }, { responseType: 'blob' });
-                const audioBlob = new Blob([audioResponse.data], { type: 'audio/mp3' });
+                // const audioResponse = await axios.post('https://172.23.0.1:8080/answer', { answer: response.data.choices[0].message.content}, { responseType: 'blob' });
+                
+                const audioBlob = await responses.blob();
+                // const audioBlob = new Blob([audioResponse.data], { type: 'audio/mp3' });
                 const audioUrl = URL.createObjectURL(audioBlob);
-
+                document.getElementById('transcription').textContent = " ";
                 // Ensure the audio element is not playing
                 if (audioRef.current) {
                     audioRef.current.pause();
@@ -112,8 +144,9 @@ const Display = () => {
                     // Ensure audio is only played once by adding an event listener
                     audioRef.current.onloadedmetadata = () => {
                         audioRef.current.play();
+                       
                         playAnimation(animation12Ref)
-                        document.getElementById('transcription').textContent = "";
+                        // document.getElementById('transcription').textContent = "";
                         // typeText('transcription', response.data.answer);
 
                         audioRef.current.onended = () => {
@@ -149,8 +182,9 @@ const Display = () => {
                     alert('Browser not supported');
                     return;
                 }
-
+                
                 const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+
                 const socket = new WebSocket('wss://api.deepgram.com/v1/listen?model=nova-2', [
                     'token',
                     'ce086a82fc025fdc4a3e6a55025b1bf33fda52db',
@@ -158,15 +192,16 @@ const Display = () => {
 
                 socket.onopen = () => {
                     console.log('WebSocket connected');
+
                     stopAnimation(animation12Ref)
                     // setStatus('Connected');
+                    document.querySelector('.spiner').style.display = 'none';
                     mediaRecorder.start(500);
                 };
 
                 mediaRecorder.addEventListener('dataavailable', async (event) => {
                     if (event.data.size > 0 && socket.readyState === WebSocket.OPEN) {
                         socket.send(event.data);
-
                     }
                 });
 
@@ -184,68 +219,7 @@ const Display = () => {
                     }
                 };
 
-
-                // socket.onmessage = (message) => {
-                //     const received = JSON.parse(message.data);
-                //     const alternatives = received.channel?.alternatives;
-
-                //     if (alternatives && alternatives.length > 0) {
-                //         const newWord = alternatives[0].transcript || '';
-                //         const isFinal = alternatives[0].is_final;
-
-                //         if (newWord) {
-                //             console.log(newWord);
-                //             playRandomAudio();
-                //             lastTranscriptTime = Date.now();
-
-                //             setInputData((prevState) => ({
-                //                 ...prevState,
-                //                 question: newWord
-                //             }));
-
-                //             document.getElementById('sendButton').click();
-                //         }
-
-                //         // if (isFinal) {
-                //         //     handleFinalTranscript(newWord);
-                //         // }
-                //     }
-                // };
-
-                // socket.onmessage = (message) => {
-                //     const received = JSON.parse(message.data)
-                //     newWord  = received.channel.alternatives[0].transcript
-                //     if (newWord && received.is_final) {
-                //       console.log(newWord)
-
-                //         setInputData((prevState) => ({
-                //             ...prevState,
-                //             question: newWord
-
-                //         }));
-                //         resetPauseTimer();
-                //     }
-                //   }
-
-                // socket.onmessage = (message) => {
-                //     const received = JSON.parse(message.data);
-                //     // console.log(received);
-                //     newWord = received.channel?.alternatives[0]?.transcript || '';
-                //     if (newWord) {
-                //         console.log(newWord);
-                //         // currentTranscript += newWord + ' ';
-                //         // setTranscript(currentTranscript);
-                //         // console.log(currentTranscript)
-                //         setInputData((prevState) => ({
-                //             ...prevState,
-                //             question: newWord
-
-                //         }));
-                //         resetPauseTimer();
-                //     }
-                // };
-
-                socket.onclose = () => {
+               socket.onclose = () => {
                     console.log('WebSocket closed');
                 };
 
@@ -259,27 +233,26 @@ const Display = () => {
             setInterval(() => {
                 if (Date.now() - lastTranscriptTime > alertDelay && finalTranscript) {
                     playRandomAudio();
+                   
                     setInputData((prevState) => ({
                         ...prevState,
                         question: finalTranscript
 
                     }));
-
+                    document.getElementById('transcription').textContent = "Wait for a movement";
                     document.getElementById('sendButton').click();
                     //   alert('Transcription complete: ' + finalTranscript);
                     finalTranscript = ''; // Reset the transcript
                 }
-            }, 400);
+               
+            }, 500);
         };
 
-
-
         connectToSpeechRecognition();
-
-
     }, []);
 
     return (
+
         <div id='display'>
             <form onSubmit={handleSubmit} style={{ position: 'absolute' }}>
                 <div className='from-group-voice'>
@@ -303,20 +276,6 @@ const Display = () => {
                             onChange={handleChange}
                         />
                     </label>
-                    <br />
-                    <label>
-                        Language:
-                        <select
-                            name="language"
-                            value={inputData.language}
-                            onChange={handleChange}
-                        >
-                            <option value="english">English</option>
-                            <option value="Hindi">Hindi</option>
-                        </select>
-                    </label>
-                    <br />
-
                     <button type="submit" id="sendButton">Send</button>
                     <audio ref={audioRef} controls />
                 </div>
@@ -329,6 +288,7 @@ const Display = () => {
                     backgroundSize: 'cover',
                     height: '100dvh', // Ensure the container covers the viewport
                 }}>
+                    
                 <div className='d-flex'>
                 <div className="milaNav" style={{zIndex:'99'}}>
                     <div className="navbar-4">
@@ -337,15 +297,23 @@ const Display = () => {
                 </div>
                 </div>
                 <div className='d-flex flex-column align-items-center voice-animation'>
+                    <div className='spiner'>
+                    <Lottie
+                            animationData={loadingSpiner}
+                            lottieRef={animation12Ref}
+                        />
+                        
+
+                    </div>
+              
                     <div className='VoiceAni glow-effect'>
                         <Lottie
                             animationData={Animation12}
                             lottieRef={animation12Ref}
                         />
-                        <div className='glow'>
-                        </div>
+                       
                         {/* <button onClick={() => playAnimation(animation12Ref)}>Play Animation12</button>
-            <button onClick={() => stopAnimation(animation12Ref)}>Stop Animation12</button> */}
+                    <button onClick={() => stopAnimation(animation12Ref)}>Stop Animation12</button> */}
                     </div>
                     <div className='trascription text-dark px-3'>
                         <p id='transcription'>welcome to expro, how can i help you?</p>
@@ -354,7 +322,7 @@ const Display = () => {
                     <Lottie
                             animationData={MicAni}
                             lottieRef={micAniRef}
-                            style={{ width: 170 }}
+                            style={{ width: 120 }}
                         />
                         <div className='round-animation'>
 
