@@ -282,13 +282,17 @@ color: #df7300 !important;
 
 #carouselExampleIndicators{
   border-radius: 10px;
-
 }
+#silderVoicebot .d-block{
+width: 90%;
+border-radius: 10px;
+}
+
 .btn-welcome{
   text-align: end;
   width: 100%;
   display: block;
-  padding: 60px 26px 0px 0px;
+  padding: 40px 26px 0px 0px;
 }
 
 .proceed-btn{
@@ -329,7 +333,6 @@ span{
   color: #FF3D00;
 }
 .hero-text h2{
-  padding-top: 60px;
   font-size: 30px;
   font-weight: 700;
 }
@@ -339,6 +342,10 @@ span{
 
 }
 
+.SpleshScreen{
+  height: 100dvh;
+  align-items: center;
+}
 .motivational-box img{
   width: 100%;
 }
@@ -407,7 +414,6 @@ span{
   align-items: center;
 }
 .milaNav{
-  padding-top: 35px !important;
   padding: 10px 10px 6px 0;
   width: 100%;
 }
@@ -525,7 +531,7 @@ iframe{
 }
 #googleicons{
 position: absolute;
-top: 380px;
+top: 430px;
 left: 100px;
 z-index: -9;
 }
@@ -624,4 +630,9 @@ z-index: -9;
 #transcription{
   overflow: auto;
   height: 22dvh;
+}
+.voice-ani {
+  position: absolute;
+  bottom: 0;
+  transition: width 0.5s ease;
 }
