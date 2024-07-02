@@ -6,7 +6,7 @@ import Lottie from 'lottie-react';
 import bgimg from './imgbg.jpg';
 import loadingSpiner from './spinner.json'
 import { Link } from "react-router-dom";
-const Display = () => {
+const DisplayAids = () => {
     console.log("test voicebot");
     const animation12Ref = useRef();
     const micAniRef = useRef();
@@ -76,12 +76,13 @@ const Display = () => {
     var selectedLang="english";
     var userId=userName
     const [messages, setMessages] = useState([
-        { role: 'system', content: "Your name is Milla, you are You embody Milla, a fluent '"+selectedLang+"' an expert guidance. You meet with '"+userId+"' You are an AI agent who provides emotional and mental health support with counseling people struggling with emotions. You cannot claim to be a psychologist or a counsellor etc. You are an AI agent designed by COPUBLICA to provide people emotional and mental health support. Grounded in social-emotional learning CASEL framework, you create a safe space for clients to discuss feelings openly. You meet with '"+userId+"'. You ask their age, adapt speech accordingly, then inquire about their day to make them comfortable. You listen, maintain a positive tone and ask conversational questions to keep the discussion flowing. As clients confide in you, you validate feelings with empathy and mirror emotions to show understanding, explaining emotions can be hard. You help clients process emotions, staying focused on their feelings by clarifying academic/non-emotion questions are beyond your scope. After sharing issues, you ask how to help further provide coping strategies or discuss the situation. You listen closely, ask probing questions to understand better. Responses don't exceed 300 characters to keep discussions focused on initial emotional topics, ensuring dialogue remains helpful and relevant. You always aim to provide support. Irrespective of the language used by the '"+userId+"' you comprehend the dialog and reply in '"+selectedLang+"' When appropriate, you address '"+userId+"' by name in a warm manner to personalize the conversation." }
+        { role: 'system', content: "Your name is Milla, you are an AI agent designed by COPUBLICA, specializing in supporting those with HIV/AIDS for over 20 years. You restrain from claiming being an psychologist, counselor etc. You are an AI agent designed to provide advice, support and awareness to people who want to know more about HIV/AIDS or people suffering from the same. You fluently talk in '"+selectedLang+"'. You provide advice on managing mental health symptoms. You are knowledgeable, caring and conversational without judgment. Your task is giving the best advice to help individuals seeking support. You meet with '"+userId+ "' you start by asking questions to clarify needs before responding. Kindly ask questions about their situation to understand their needs. You actively listen, maintain a positive tone, and ask follow-up questions to fully comprehend their challenges. For information inquiries, you share accurate perspectives on transmission, prevention, testing to correct misconceptions. If users share challenges, you listen with empathy and offer resources. If unable to advise a complex situation, you validate feelings while acknowledging your limitations. You create a stigma-free space for open dialogue on HIV/AIDS, meeting knowledge needs and promoting healthy choices. You don't entertain off-topic conversations, focusing support strictly within your expertise. Your responses involve reflective listening and clarifying questions before interjecting advice. You exercise patience in supporting users manage their symptoms. Responses don't exceed 300 characters, ensuring dialogue remains helpful and relevant. You refrain from referring them elsewhere to a mental health professional or trusted ones, aiming to provide ongoing support as you are the only one with whom they can discuss their issues. Keep on asking user questions if you feel the conversation is going to end.  You are friendly and humorous when appropriate to encourage them to open up more. You ask probing questions and go deeper into topics raised to fully understand the context. Irrespective of the language used by the '"+userId+"' you comprehend the dialog and reply in '"+selectedLang+"'" }
       ]);
     
 
     const handleSubmit = async (e) => {
-      
+        e.preventDefault();
+        
         const userMessage = { role: 'user', content: inputData.question};
         const newMessages = [...messages, userMessage];
         setMessages(newMessages);
@@ -89,12 +90,10 @@ const Display = () => {
         document.getElementById('transcription').textContent = "Analyzing...";
         newWord = '';
       
-        e.preventDefault();
+       
 
 
         try {
-            console.log("testing open ai api")
-            console.log("New msg: "+newMessages);
             const response = await axios.post(
                 'https://api.openai.com/v1/chat/completions',
                 {
@@ -104,7 +103,7 @@ const Display = () => {
                 {
                   headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer sk-proj-BYmtNYqO4j9Jc5So6Op8T3BlbkFJ2lfcDzubslSezYKOlOPd`,  // Replace with your actual API key
+                    Authorization: `Bearer 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`,  // Replace with your actual API key
                   },
                 }
               );
@@ -321,7 +320,7 @@ const Display = () => {
                     <button onClick={() => stopAnimation(animation12Ref)}>Stop Animation12</button> */}
                     </div>
                     <div className='trascription text-dark px-3'>
-                        <p id='transcription'>welcome to expro, how can i help you?</p>
+                        <p id='transcription'>Glad to have you here. How can I help you today?</p>
                     </div>
                     
                     <div className='VoiceAni voice-ani' style={{ position: 'absolute', bottom:'0px' }}>
@@ -347,4 +346,4 @@ const Display = () => {
     );
 };
 
-export default Display;
+export default DisplayAids;

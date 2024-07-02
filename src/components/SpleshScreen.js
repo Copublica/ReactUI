@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 const SpleshScreen = () => {
     useEffect(() => {
+        console.log("welcome to splesh page");
+
         const timeoutId = setTimeout(() => {
             const link = document.getElementById("titlePageLink");
             if (link) {
@@ -15,7 +17,7 @@ const SpleshScreen = () => {
 
     return (
         <>
-            <div className="container px-4" id="hideFleshScreen">
+            <div className="container SpleshScreen px-4 d-flex justify-content-center" id="hideFleshScreen">
                 <div className="card text-left border-0">
                     <div className="card-body">
                         <p className="card-title text-center p-4 text-white rounded-circle" id="cardTitle">

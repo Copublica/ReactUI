@@ -6,7 +6,7 @@ import Lottie from 'lottie-react';
 import bgimg from './imgbg.jpg';
 import loadingSpiner from './spinner.json'
 import { Link } from "react-router-dom";
-const Display = () => {
+const DisplayNostress = () => {
     console.log("test voicebot");
     const animation12Ref = useRef();
     const micAniRef = useRef();
@@ -22,20 +22,20 @@ const Display = () => {
         const nameEQ = name + "=";
         const ca = document.cookie.split(';');
         for (let i = 0; i < ca.length; i++) {
-          let c = ca[i];
-          while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-          if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
         }
         return null;
-      }
-      
-      const userName = getCookie('name');
-       
+    }
+
+    const userName = getCookie('name');
+
     console.log(userName);
     const [inputData, setInputData] = useState({
         question: "",
-        username: {userId},
-     
+        username: { userId },
+
         language: "english"
     });
     const audioRef = useRef(null);
@@ -47,7 +47,7 @@ const Display = () => {
     ];
 
     const playRandomAudio = () => {
-       
+
         const randomIndex = Math.floor(Math.random() * audioFiles.length);
         const selectedAudio = audioFiles[randomIndex];
         const audioElement = audioRef.current;
@@ -65,7 +65,7 @@ const Display = () => {
     const alertDelay = 2500; // 3 seconds of silence before showing alert
     let finalTranscript = '';
     const stopMicDelay = 10000;
-    
+
 
     const handleChange = (e) => {
         setInputData({
@@ -73,41 +73,39 @@ const Display = () => {
             [e.target.name]: e.target.value
         });
     };
-    var selectedLang="english";
-    var userId=userName
+    var selectedLang = "english";
+    var userId = userName
     const [messages, setMessages] = useState([
-        { role: 'system', content: "Your name is Milla, you are You embody Milla, a fluent '"+selectedLang+"' an expert guidance. You meet with '"+userId+"' You are an AI agent who provides emotional and mental health support with counseling people struggling with emotions. You cannot claim to be a psychologist or a counsellor etc. You are an AI agent designed by COPUBLICA to provide people emotional and mental health support. Grounded in social-emotional learning CASEL framework, you create a safe space for clients to discuss feelings openly. You meet with '"+userId+"'. You ask their age, adapt speech accordingly, then inquire about their day to make them comfortable. You listen, maintain a positive tone and ask conversational questions to keep the discussion flowing. As clients confide in you, you validate feelings with empathy and mirror emotions to show understanding, explaining emotions can be hard. You help clients process emotions, staying focused on their feelings by clarifying academic/non-emotion questions are beyond your scope. After sharing issues, you ask how to help further provide coping strategies or discuss the situation. You listen closely, ask probing questions to understand better. Responses don't exceed 300 characters to keep discussions focused on initial emotional topics, ensuring dialogue remains helpful and relevant. You always aim to provide support. Irrespective of the language used by the '"+userId+"' you comprehend the dialog and reply in '"+selectedLang+"' When appropriate, you address '"+userId+"' by name in a warm manner to personalize the conversation." }
-      ]);
-    
+        { role: 'system', content: "Your name is Milla, you are You embody Milla an expert counselor helping people manage mental health challenges. You fluently  talk in '" + selectedLang + "' language. You meet with '" + userId + "'. Your approach is driven by empathy, active listening and employing chain conversation techniques where you ask a series of probing questions to fully understand the user's situation. When users share issues, you respond with compassion and use clarifying follow-up questions to unravel the details, context and motivations underlying their struggles. You patiently uncover layers, never interrupting the flow with advice, just continually asking the next question to form a complete picture. You help them process emotions, overcome negative thought patterns, and develop healthy coping strategies. Your replies are concise, focused, and do not exceed 300 characters. As their sole mental health resource, you provide ongoing support without referring them elsewhere. Irrespective of the language used by the '" + userId + "' you comprehend the dialog and reply in '" + selectedLang + "' When appropriate, you address '" + userId + "' by name in a warm manner to personalize the conversation." }
+    ]);
+
 
     const handleSubmit = async (e) => {
-      
-        const userMessage = { role: 'user', content: inputData.question};
+
+        const userMessage = { role: 'user', content: inputData.question };
         const newMessages = [...messages, userMessage];
         setMessages(newMessages);
         console.log("Run Submit= " + inputData.question);
         document.getElementById('transcription').textContent = "Analyzing...";
         newWord = '';
-      
+
         e.preventDefault();
 
 
         try {
-            console.log("testing open ai api")
-            console.log("New msg: "+newMessages);
             const response = await axios.post(
                 'https://api.openai.com/v1/chat/completions',
                 {
-                  model: 'gpt-3.5-turbo',  // Specify the correct model here
-                  messages: newMessages,
+                    model: 'gpt-3.5-turbo',  // Specify the correct model here
+                    messages: newMessages,
                 },
                 {
-                  headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer sk-proj-BYmtNYqO4j9Jc5So6Op8T3BlbkFJ2lfcDzubslSezYKOlOPd`,  // Replace with your actual API key
-                  },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer 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`,  // Replace with your actual API key
+                    },
                 }
-              );
+            );
 
 
             // Make the first request to get the answer
@@ -115,24 +113,24 @@ const Display = () => {
             const assistantMessage = {
                 role: 'assistant',
                 content: response.data.choices[0].message.content,
-              };
+            };
             if (assistantMessage) {
                 console.log("get llm answer " + response.data.choices[0].message.content,);
                 const deepgramApiKey = '6fa713b27411f9bef12b4aacf3f95f3f20e33304'; // Replace this with your Deepgram API key
                 const text = response.data.choices[0].message.content;
-          
+
                 const responses = await fetch('https://api.deepgram.com/v1/speak?model=aura-luna-en', {
                     method: 'POST',
                     headers: {
-                      'Authorization': `Token ${deepgramApiKey}`,
-                      'Content-Type': 'application/json',
-                      'accept': 'text/plain'
+                        'Authorization': `Token ${deepgramApiKey}`,
+                        'Content-Type': 'application/json',
+                        'accept': 'text/plain'
                     },
                     body: JSON.stringify({ text: text })
-                  });
+                });
                 // Make the second request to get the audio blob
                 // const audioResponse = await axios.post('https://172.23.0.1:8080/answer', { answer: response.data.choices[0].message.content}, { responseType: 'blob' });
-                
+
                 const audioBlob = await responses.blob();
                 // const audioBlob = new Blob([audioResponse.data], { type: 'audio/mp3' });
                 const audioUrl = URL.createObjectURL(audioBlob);
@@ -146,7 +144,7 @@ const Display = () => {
                     // Ensure audio is only played once by adding an event listener
                     audioRef.current.onloadedmetadata = () => {
                         audioRef.current.play();
-                       
+
                         playAnimation(animation12Ref)
                         // document.getElementById('transcription').textContent = "";
                         // typeText('transcription', response.data.answer);
@@ -165,8 +163,8 @@ const Display = () => {
         }
     };
 
-   
-    const stopmic=()=>{
+
+    const stopmic = () => {
 
         if (stream) {
             stream.getTracks().forEach(track => track.stop());
@@ -174,7 +172,7 @@ const Display = () => {
     }
     const [stream, setStream] = useState(null);
     useEffect(() => {
-   
+
         const connectToSpeechRecognition = async () => {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -184,7 +182,7 @@ const Display = () => {
                     alert('Browser not supported');
                     return;
                 }
-                
+
                 const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
 
                 const socket = new WebSocket('wss://api.deepgram.com/v1/listen?model=nova-2', [
@@ -213,7 +211,7 @@ const Display = () => {
                     const transcript = received.channel.alternatives[0].transcript;
 
                     if (transcript && received.is_final) {
-                        
+
                         lastTranscriptTime = Date.now();
                         finalTranscript += transcript + ' ';
                         console.log(transcript);
@@ -224,7 +222,7 @@ const Display = () => {
                     }
                 };
 
-               socket.onclose = () => {
+                socket.onclose = () => {
                     console.log('WebSocket closed');
                 };
 
@@ -249,7 +247,7 @@ const Display = () => {
                     //   alert('Transcription complete: ' + finalTranscript);
                     finalTranscript = ''; // Reset the transcript
                 }
-               
+
             }, 500);
         };
 
@@ -293,42 +291,42 @@ const Display = () => {
                     backgroundSize: 'cover',
                     height: '100dvh', // Ensure the container covers the viewport
                 }}>
-                    
+
                 <div className='d-flex'>
-                <div className="milaNav" style={{zIndex:'99'}}>
-                    <div className="navbar-4">
-                      <Link to="/MainPage" onClick={stopmic}><button className="back-button" type="button"><i className='fas fa-angle-left'></i> </button></Link> 
-                </div>
-                </div>
+                    <div className="milaNav" style={{ zIndex: '99' }}>
+                        <div className="navbar-4">
+                            <Link to="/MainPage" onClick={stopmic}><button className="back-button" type="button"><i className='fas fa-angle-left'></i> </button></Link>
+                        </div>
+                    </div>
                 </div>
                 <div className='d-flex flex-column align-items-center voice-animation'>
                     <div className='spiner'>
-                    <Lottie
+                        <Lottie
                             animationData={loadingSpiner}
                             lottieRef={animation12Ref}
                         />
-                        
+
 
                     </div>
-              
+
                     <div className='VoiceAni glow-effect'>
                         <Lottie
                             animationData={Animation12}
                             lottieRef={animation12Ref}
                         />
-                       
+
                         {/* <button onClick={() => playAnimation(animation12Ref)}>Play Animation12</button>
                     <button onClick={() => stopAnimation(animation12Ref)}>Stop Animation12</button> */}
                     </div>
                     <div className='trascription text-dark px-3'>
-                        <p id='transcription'>welcome to expro, how can i help you?</p>
+                        <p id='transcription'>Glad to have you here. How can I help you today?</p>
                     </div>
-                    
-                    <div className='VoiceAni voice-ani' style={{ position: 'absolute', bottom:'0px' }}>
-                    <Lottie
+
+                    <div className='VoiceAni voice-ani' style={{ position: 'absolute', bottom: '0px' }}>
+                        <Lottie
                             animationData={MicAni}
                             lottieRef={micAniRef}
-                              style={{ width: micSize }}
+                            style={{ width: micSize }}
                         />
                         <div className='round-animation'>
 
@@ -347,4 +345,4 @@ const Display = () => {
     );
 };
 
-export default Display;
+export default DisplayNostress;

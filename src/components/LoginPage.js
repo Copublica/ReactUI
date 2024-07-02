@@ -5,6 +5,8 @@ import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 
 function LoginPage()
 {
+  console.log("welcome to login page");
+
   const setCookie=(name, value, days)=> {
     var expires = "";
     if (days) {
@@ -17,7 +19,7 @@ function LoginPage()
 
   
     return(
-        <div className="container px-4" id="loginpage">
+        <div className="container px-4 mt-5 py-5" id="loginpage">
         <p className="title-text text-center font-weight-bold text-secondary">
           Meet your 
           <br />
