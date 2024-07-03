@@ -104,7 +104,7 @@ const Display = () => {
                 {
                   headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer sk-proj-BYmtNYqO4j9Jc5So6Op8T3BlbkFJ2lfcDzubslSezYKOlOPd`,  // Replace with your actual API key
+                    Authorization: `Bearer `,  // Replace with your actual API key
                   },
                 }
               );

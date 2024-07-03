@@ -12,7 +12,7 @@ function SignUp(){
         <p className="text-center text-dark mb-3">by creating a <span className="text-danger">free account</span></p>
         <form action="/action_page.php">
           <div className="form-group">
-            <input type="text" className="form-control" id="email"  placeholder="Full name:"/>
+            <input type="text" className="form-control" id="username"  placeholder="Full name:"/>
             <i className="far fa-envelope"></i>
           </div>
           <div className="form-group">
@@ -20,7 +20,7 @@ function SignUp(){
             <i className="far fa-envelope"></i>
           </div>
           <div className="form-group">
-            <input type="email" className="form-control" id="email"  placeholder="Phone no"/>
+            <input type="phone" className="form-control" id="phoneno"  placeholder="Phone no"/>
             <i className="far fa-envelope"></i>
           </div>
           <div className="form-group">

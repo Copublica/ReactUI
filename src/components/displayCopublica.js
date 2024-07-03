@@ -103,7 +103,7 @@ const DisplayAids = () => {
                 {
                   headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer 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`,  // Replace with your actual API key
+                    Authorization: `Bearer`,  // Replace with your actual API key
                   },
                 }
               );

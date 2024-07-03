@@ -47,7 +47,8 @@ function LoginPage()
           <span className="fw-bold"/><span className="line"></span> sign in with <span className="line"></span>
           <div className="social-media-icons mt-2">
             <div className="s-col-4">
-            <GoogleOAuthProvider clientId="338976857027-orhikrsb7037ussbjb5c083ksfu5679c.apps.googleusercontent.com">
+              
+            <GoogleOAuthProvider clientId="338976857027-7eaird3188j265pb2vf0ltmt7m53o01c.apps.googleusercontent.com">
         
         <GoogleLogin
           onSuccess={credentialResponse => {

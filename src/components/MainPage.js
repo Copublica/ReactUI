@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Modal, Button } from 'react-bootstrap';
 function MainPage() {
 
   console.log("welcome to main page");
@@ -14,6 +15,13 @@ function MainPage() {
     }
     return null;
   }
+  function deleteCookie(name) {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  }
+
+  function handleLogout() {
+    deleteCookie('name');
+  }
 
   const userName = getCookie('name');
   return (
@@ -25,8 +33,9 @@ function MainPage() {
             <h2>Hi! <br /> <span>{userName}</span></h2>
             <p>lets make this day <span>delightful</span> together.</p>
           </div>
-          <div className="logout text-danger">
-            <i class="fa-solid fa-power-off"></i>
+          
+           <div className="logout text-danger" id="logout" onClick={handleLogout}>
+            <i className="fa-solid fa-power-off"></i>
           </div>
         </div>
 
@@ -44,9 +53,9 @@ function MainPage() {
               <h4>No More stess</h4>
             </div></Link> */}
 
-          <Link to="/AboutMilla#sel" className="link">  <img src="assets/images/sel.png" class="d-block" alt="..."/></Link>
-          <Link to="/AboutMilla#NoMoreStress" className="link"><img src="assets/images/mental.png" class="d-block" alt="..."/></Link>
-          <Link to="/AboutMilla#AIDSAwareness" className="link"><img src="assets/images/Aids.png" class="d-block" alt="..."/></Link>
+          <Link to="/AboutMilla#sel" className="link">  <img src="assets/images/sel.png" className="d-block" alt="..."/></Link>
+          <Link to="/AboutMilla#NoMoreStress" className="link"><img src="assets/images/mental.png" className="d-block" alt="..."/></Link>
+          <Link to="/AboutMilla#AIDSAwareness" className="link"><img src="assets/images/Aids.png" className="d-block" alt="..."/></Link>
        
 
           </div>
