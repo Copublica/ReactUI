@@ -18,11 +18,16 @@ import MainPage from './components/MainPage';
 import Voice from './components/Voice';
 import AboutMilla from './components/AboutMilla';
 import Display from './components/display';
+import selVoice from './components/display';
+import SelBot from './components/SelBot';
+import DisplayAids from './components/displayAids';
+import DisplayNostress from './components/displayNostress';
+
 function App() {
   const [user, setUser] = useState(null);
   return (
-    <div>
-<BrowserRouter>
+<div>
+<BrowserRouter >
     <Routes>
       <Route path='/' element={<SpleshScreen/>}></Route>
       <Route path='/TitlePage' element={<TitlePage/>}></Route>
@@ -33,6 +38,10 @@ function App() {
       <Route path='/Voice' element={<Display/>}></Route>
       <Route path='AboutMilla' element={<AboutMilla/>}></Route>
       <Route path='Display' element={<Display/>}></Route>
+      <Route path='selVoice' element={<selVoice/>}></Route>
+      <Route path='SelBot' element={<SelBot/>}></Route>
+      <Route path='DisplayAids' element={<DisplayAids/>}></Route>
+      <Route path='DisplayNostress' element={<DisplayNostress/>}></Route>
       {/* <Route path='*' element={<TitlePage/>}></Route> */}
     </Routes>
 </BrowserRouter>

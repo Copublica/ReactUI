@@ -544,7 +544,9 @@ z-index: -9;
   position: absolute;
   left: 236px;
 }
-
+#logout{
+  cursor: pointer;
+}
 .from-group-voice{
   opacity: 0;
 
