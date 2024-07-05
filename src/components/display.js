@@ -33,9 +33,8 @@ const Display = () => {
        
     console.log(userName);
     const [inputData, setInputData] = useState({
-        question: "",
+        question:"",
         username: {userId},
-     
         language: "english"
     });
     const audioRef = useRef(null);
@@ -210,6 +209,7 @@ const Display = () => {
                 socket.onmessage = (message) => {
 
                     const received = JSON.parse(message.data);
+                    if (received.channel && received.channel.alternatives && received.channel.alternatives.length > 0) {
                     const transcript = received.channel.alternatives[0].transcript;
 
                     if (transcript && received.is_final) {
@@ -220,7 +220,7 @@ const Display = () => {
 
                         setMicSize(140);
                         stopAnimation(animation12Ref)
-
+                    }
                     }
                 };
 

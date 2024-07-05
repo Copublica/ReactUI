@@ -15,13 +15,13 @@ function MainPage() {
     }
     return null;
   }
-  function deleteCookie(name) {
-    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-  }
+  // function deleteCookie(name) {
+  //   document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  // }
 
-  function handleLogout() {
-    deleteCookie('name');
-  }
+  // function handleLogout() {
+  //   deleteCookie('name');
+  // }
 
   const userName = getCookie('name');
   return (
@@ -34,13 +34,13 @@ function MainPage() {
             <p>lets make this day <span>delightful</span> together.</p>
           </div>
           
-           <div className="logout text-danger" id="logout" onClick={handleLogout}>
+           <div className="logout text-danger" id="logout">
             <i className="fa-solid fa-power-off"></i>
           </div>
         </div>
 
         <div className="motivational-box">
-          <Link to="/AboutMilla"> <img src="assets/images/image.png" alt="" /></Link>
+          <Link to="/AboutMilla#DisplayCopublica"> <img src="assets/images/image.png" alt="" /></Link>
         </div>
         <h4 className="mt-4">Trending companions</h4>
         <div className="little-carousels">

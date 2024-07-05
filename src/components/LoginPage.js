@@ -1,23 +1,23 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import {React} from "react";
+import { Link,useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { GoogleOAuthProvider, GoogleLogin, useGoogleLogin } from '@react-oauth/google';
+import Welcome from "./Welcome";
+
+const setCookie=(name, value, days)=> {
+  var expires = "";
+  if (days) {
+    var date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    expires = "; expires=" + date.toUTCString();
+  }
+  document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
 
 function LoginPage()
 {
-  console.log("welcome to login page");
 
-  const setCookie=(name, value, days)=> {
-    var expires = "";
-    if (days) {
-      var date = new Date();
-      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-      expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
-  }
-
-  
+  console.log("welcome to login page");  
     return(
         <div className="container px-4 mt-5 py-5" id="loginpage">
         <p className="title-text text-center font-weight-bold text-secondary">
@@ -48,24 +48,25 @@ function LoginPage()
           <div className="social-media-icons mt-2">
             <div className="s-col-4">
               
-            <GoogleOAuthProvider clientId="338976857027-7eaird3188j265pb2vf0ltmt7m53o01c.apps.googleusercontent.com">
+       <GoogleOAuthProvider clientId="338976857027-7eaird3188j265pb2vf0ltmt7m53o01c.apps.googleusercontent.com">
         
         <GoogleLogin
           onSuccess={credentialResponse => {
             const decodedCredential = jwtDecode(credentialResponse.credential);
-            console.log(decodedCredential);
+            console.log("deatails:- "+decodedCredential);
               // Setting cookies with user information
-              setCookie('name', decodedCredential.name, 70); // Expires in 7 days
-              setCookie('email', decodedCredential.email, 70);
-              setCookie('picture', decodedCredential.picture, 70);
-              window.location.href = "/welcome"; 
+              // setCookie('name', decodedCredential.name, 70); // Expires in 7 days
+              // setCookie('email', decodedCredential.email, 70);
+              // setCookie('picture', decodedCredential.picture, 70);
+             
               }}
           onError={() => {
             console.log('Login Failed');
           }}
         />
+        <CustomButton/>
       </GoogleOAuthProvider>
-              <img src="assets/images/search.png" id="googleicons"/>
+              {/* <img src="assets/images/search.png" id="googleicons"/> */}
             </div>
             <div className="s-col-4">
               <img src="assets/images/facebook.png" id="facebook"/>
@@ -85,3 +86,38 @@ function LoginPage()
     )
 }
 export default LoginPage;
+
+export const CustomButton=()=>
+{
+  const navigate = useNavigate();
+  const login = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      const { access_token } = tokenResponse;
+      const options = {
+        method: 'GET',
+        headers: { Authorization: `Bearer ${access_token}` },
+      };
+      fetch('https://www.googleapis.com/oauth2/v2/userinfo', options)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setCookie('name', data.name, 7); // Expires in 7 days
+          setCookie('email', data.email, 7);
+          setCookie('picture', data.picture, 7);
+          navigate('/welcome');
+          // Use the user's credentials here
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+ return(
+  <button onClick={login} className="custom-google-btn">
+  <img src="assets/images/search.png" alt="Google icon" className="google-icon" />
+</button>
+ )
+}

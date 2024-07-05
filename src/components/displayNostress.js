@@ -33,9 +33,7 @@ const DisplayNostress = () => {
 
     console.log(userName);
     const [inputData, setInputData] = useState({
-        question: "",
         username: { userId },
-
         language: "english"
     });
     const audioRef = useRef(null);

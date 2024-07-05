@@ -32,6 +32,15 @@ function AboutMila() {
         q3="Can you help with my stress?"
     }
 
+    else if (hash === "DisplayCopublica") {
+        title = "Copublica voice bot";
+        urls="/DisplayCopublica"
+        bio = "I'm Milla, your compassionate voicebot to guide through rough times. With a background in psychology and a passion for supporting others, I'm dedicated to providing a safe space for individuals.";
+        q1="I am feeling anxious. What should I do?"
+        q2="I am not able to cope with surroundings"
+        q3="Can you help with my stress?"
+    }
+
     return (
         <div className="mila-container" id="AboutMilla">
             <div className="aboutMila">
