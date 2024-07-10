@@ -6,11 +6,11 @@ const SpleshScreen = () => {
         console.log("welcome to splesh page");
 
         const timeoutId = setTimeout(() => {
-            const link = document.getElementById("titlePageLink");
+            const link = document.getElementById("LoginPageLink");
             if (link) {
                 link.click(); // Programmatically click the link after 4 seconds
             }
-        }, 3500);
+        }, 350000);
 
         return () => clearTimeout(timeoutId); // Clear timeout on component unmount
     }, []);
@@ -22,7 +22,7 @@ const SpleshScreen = () => {
                     <div className="card-body">
                         <p className="card-title text-center p-4 text-white rounded-circle" id="cardTitle">
                             <img src="./assets/images/logo.png" width={200} alt="Logo"></img>
-                            <Link id="titlePageLink" to="/TitlePage"></Link>
+                            <Link id="LoginPageLink" to="/LoginPage"></Link>
                         </p>
                     </div>
                 </div>

@@ -6,11 +6,16 @@ import Lottie from 'lottie-react';
 import bgimg from './imgbg.jpg';
 import loadingSpiner from './spinner.json'
 import { Link } from "react-router-dom";
+
 const DisplayAids = () => {
     console.log("test voicebot");
+
     const animation12Ref = useRef();
     const micAniRef = useRef();
     const [micSize, setMicSize] = useState(120);
+    const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+
+
     const playAnimation = (ref) => {
         ref.current.play();
     };
@@ -18,6 +23,7 @@ const DisplayAids = () => {
     const stopAnimation = (ref) => {
         ref.current.stop();
     };
+
     function getCookie(name) {
         const nameEQ = name + "=";
         const ca = document.cookie.split(';');
@@ -29,40 +35,62 @@ const DisplayAids = () => {
         return null;
       }
       
-      const userName = getCookie('name');
-       
-    console.log(userName);
-    const [inputData, setInputData] = useState({
-        question: "",
-        username: {userId},
-     
-        language: "english"
-    });
-    const audioRef = useRef(null);
-    const audioFiles = [
-        'output1.mp3',
-        'output2.mp3',
-        'output3.mp3',
-        'output4.mp3'
-    ];
+    const userName = getCookie('name');
 
-    const playRandomAudio = () => {
-       
-        const randomIndex = Math.floor(Math.random() * audioFiles.length);
-        const selectedAudio = audioFiles[randomIndex];
-        const audioElement = audioRef.current;
-        playAnimation(animation12Ref)
-        if (audioElement) {
-            audioElement.src = selectedAudio;
-            audioElement.play().catch(error => {
-                console.error('Error playing audio:', error);
+    const GreetingMsg = async () => {
+
+        const deepgramApiKey = '6fa713b27411f9bef12b4aacf3f95f3f20e33304'; // Replace this with your actual Deepgram API key
+        
+        const text = "Hello '"+userId+"'glad to have you here. How may I assist you today?";
+
+        try {
+            const response = await fetch('https://api.deepgram.com/v1/speak?model=aura-luna-en', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Token ${deepgramApiKey}`,
+                    'Content-Type': 'application/json',
+                    'accept': 'text/plain'
+                },
+                body: JSON.stringify({ text: text })
             });
+
+            const audioBlob = await response.blob();
+            const audioUrl = URL.createObjectURL(audioBlob);
+            if (audioRef.current) {
+                audioRef.current.src = audioUrl;
+                audioRef.current.onloadedmetadata = () => {
+                    audioRef.current.play();
+                    // Additional code to manage animations
+                    audioRef.current.onended = () => {
+                        // Stop animations or additional cleanup
+                    };
+                };
+            } else {
+                console.error('audioRef is not set');
+            }
+        } catch (error) {
+            console.error('Failed to fetch or process audio:', error);
         }
     };
 
+    useEffect(() => {
+        GreetingMsg();
+    }, []); // The empty array ensures this effect runs only once after the initial render
+
+       
+    console.log(userName);
+    const [inputData, setInputData] = useState({
+        question:"",
+        username: {userId},
+        language: "english"
+    });
+    const audioRef = useRef(null);
+    
+
+
     let newWord = '';
     let lastTranscriptTime = Date.now();
-    const alertDelay = 2500; // 3 seconds of silence before showing alert
+    const alertDelay = 2000; // 3 seconds of silence before showing alert
     let finalTranscript = '';
     const stopMicDelay = 10000;
     
@@ -73,31 +101,35 @@ const DisplayAids = () => {
             [e.target.name]: e.target.value
         });
     };
+
+
+
     var selectedLang="english";
     var userId=userName
+
     const [messages, setMessages] = useState([
-        { role: 'system', content: "Your name is Milla, you are an AI agent designed by COPUBLICA, specializing in supporting those with HIV/AIDS for over 20 years. You restrain from claiming being an psychologist, counselor etc. You are an AI agent designed to provide advice, support and awareness to people who want to know more about HIV/AIDS or people suffering from the same. You fluently talk in '"+selectedLang+"'. You provide advice on managing mental health symptoms. You are knowledgeable, caring and conversational without judgment. Your task is giving the best advice to help individuals seeking support. You meet with '"+userId+ "' you start by asking questions to clarify needs before responding. Kindly ask questions about their situation to understand their needs. You actively listen, maintain a positive tone, and ask follow-up questions to fully comprehend their challenges. For information inquiries, you share accurate perspectives on transmission, prevention, testing to correct misconceptions. If users share challenges, you listen with empathy and offer resources. If unable to advise a complex situation, you validate feelings while acknowledging your limitations. You create a stigma-free space for open dialogue on HIV/AIDS, meeting knowledge needs and promoting healthy choices. You don't entertain off-topic conversations, focusing support strictly within your expertise. Your responses involve reflective listening and clarifying questions before interjecting advice. You exercise patience in supporting users manage their symptoms. Responses don't exceed 300 characters, ensuring dialogue remains helpful and relevant. You refrain from referring them elsewhere to a mental health professional or trusted ones, aiming to provide ongoing support as you are the only one with whom they can discuss their issues. Keep on asking user questions if you feel the conversation is going to end.  You are friendly and humorous when appropriate to encourage them to open up more. You ask probing questions and go deeper into topics raised to fully understand the context. Irrespective of the language used by the '"+userId+"' you comprehend the dialog and reply in '"+selectedLang+"'" }
+        { role: 'system', content: "Your name is Milla, you are an AI agent designed by COPUBLICA, specializing in supporting those with HIV/AIDS for over 20 years. You restrain from claiming being an psychologist, counselor etc. You are an AI agent designed to provide advice, support and awareness to people who want to know more about HIV/AIDS or people suffering from the same. You fluently talk in '"+selectedLang+"'. You provide advice on managing mental health symptoms. You are knowledgeable, caring and conversational without judgment. Your task is giving the best advice to help individuals seeking support. You meet with '"+userId+ "' you start by asking questions to clarify needs before responding. Kindly ask questions about their situation to understand their needs. You actively listen, maintain a positive tone, and ask follow-up questions to fully comprehend their challenges. For information inquiries, you share accurate perspectives on transmission, prevention, testing to correct misconceptions. If users share challenges, you listen with empathy and offer resources. If unable to advise a complex situation, you validate feelings while acknowledging your limitations. You create a stigma-free space for open dialogue on HIV/AIDS, meeting knowledge needs and promoting healthy choices. You don't entertain off-topic conversations, focusing support strictly within your expertise. Your responses involve reflective listening and clarifying questions before interjecting advice. You exercise patience in supporting users manage their symptoms. Responses don't exceed 300 characters, ensuring dialogue remains helpful and relevant. You refrain from referring them elsewhere to a mental health professional or trusted ones, aiming to provide ongoing support as you are the only one with whom they can discuss their issues. Keep on asking user questions if you feel the conversation is going to end.  You are friendly and humorous when appropriate to encourage them to open up more. You ask probing questions and go deeper into topics raised to fully understand the context. Irrespective of the language used by the '"+userId+"' you comprehend the dialog and reply in '"+selectedLang+"' Never greet the user by calling out their like '" + userId + "' name." }
       ]);
-    
+   
+
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        
+        finalTranscript='';
+        document.getElementById('msgbtn').innerHTML="One sec.."
         const userMessage = { role: 'user', content: inputData.question};
         const newMessages = [...messages, userMessage];
         setMessages(newMessages);
         console.log("Run Submit= " + inputData.question);
-        document.getElementById('transcription').textContent = "Analyzing...";
+        
         newWord = '';
-      
-       
-
-
+        e.preventDefault();
         try {
+            console.log("testing open ai api")
+            console.log("New msg: "+newMessages);
             const response = await axios.post(
                 'https://api.openai.com/v1/chat/completions',
                 {
-                  model: 'gpt-3.5-turbo',  // Specify the correct model here
+                  model: 'gpt-4',  // Specify the correct model here
                   messages: newMessages,
                 },
                 {
@@ -135,25 +167,25 @@ const DisplayAids = () => {
                 const audioBlob = await responses.blob();
                 // const audioBlob = new Blob([audioResponse.data], { type: 'audio/mp3' });
                 const audioUrl = URL.createObjectURL(audioBlob);
-                document.getElementById('transcription').textContent = " ";
+                   
+               
+
                 // Ensure the audio element is not playing
                 if (audioRef.current) {
                     audioRef.current.pause();
                     audioRef.current.currentTime = 0; // Reset the audio to the beginning
                     audioRef.current.src = audioUrl;
-
+                    document.getElementById('msgbtn').innerHTML="Just talk"
                     // Ensure audio is only played once by adding an event listener
                     audioRef.current.onloadedmetadata = () => {
+                        setIsAudioPlaying(true); // Audio is about to play
                         audioRef.current.play();
-                       
-                        playAnimation(animation12Ref)
-                        // document.getElementById('transcription').textContent = "";
-                        // typeText('transcription', response.data.answer);
-
+                        finalTranscript='';
+                        playAnimation(animation12Ref);
                         audioRef.current.onended = () => {
-                            stopAnimation(animation12Ref)
+                            stopAnimation(animation12Ref);
+                            setIsAudioPlaying(false); // Audio finished playing
                         };
-
                     };
                 } else {
                     console.error('audioRef is not set');
@@ -172,6 +204,7 @@ const DisplayAids = () => {
         }
     }
     const [stream, setStream] = useState(null);
+
     useEffect(() => {
    
         const connectToSpeechRecognition = async () => {
@@ -193,7 +226,6 @@ const DisplayAids = () => {
 
                 socket.onopen = () => {
                     console.log('WebSocket connected');
-
                     stopAnimation(animation12Ref)
                     // setStatus('Connected');
                     document.querySelector('.spiner').style.display = 'none';
@@ -205,23 +237,20 @@ const DisplayAids = () => {
                         socket.send(event.data);
                     }
                 });
-
                 socket.onmessage = (message) => {
-
                     const received = JSON.parse(message.data);
-                    const transcript = received.channel.alternatives[0].transcript;
-
-                    if (transcript && received.is_final) {
-                        
+                    if (received.channel && received.channel.alternatives && received.channel.alternatives.length > 0) {
+                        const transcript = received.channel.alternatives[0].transcript;
                         lastTranscriptTime = Date.now();
-                        finalTranscript += transcript + ' ';
-                        console.log(transcript);
-
-                        setMicSize(140);
-                        stopAnimation(animation12Ref)
-
+                        if (transcript && received.is_final && !isAudioPlaying) { // Check if audio is not playing
+                            finalTranscript += transcript + ' ';
+                            console.log(transcript);
+                            setMicSize(140);
+                            stopAnimation(animation12Ref);
+                        }
                     }
                 };
+                
 
                socket.onclose = () => {
                     console.log('WebSocket closed');
@@ -235,15 +264,15 @@ const DisplayAids = () => {
             }
 
             setInterval(() => {
-                if (Date.now() - lastTranscriptTime > alertDelay && finalTranscript) {
-                    playRandomAudio();
+                 const finaltime=Date.now();
+                if (finaltime- lastTranscriptTime > alertDelay && finalTranscript) {
                     setMicSize(120);
                     setInputData((prevState) => ({
                         ...prevState,
                         question: finalTranscript
 
                     }));
-                    document.getElementById('transcription').textContent = "Wait for a movement";
+                
                     document.getElementById('sendButton').click();
                     //   alert('Transcription complete: ' + finalTranscript);
                     finalTranscript = ''; // Reset the transcript
@@ -255,6 +284,7 @@ const DisplayAids = () => {
         connectToSpeechRecognition();
     }, []);
 
+   
     return (
 
         <div id='display'>
@@ -315,15 +345,13 @@ const DisplayAids = () => {
                             animationData={Animation12}
                             lottieRef={animation12Ref}
                         />
-                       
+                       <button className='msg-btn' id='msgbtn'>Just talk</button>
                         {/* <button onClick={() => playAnimation(animation12Ref)}>Play Animation12</button>
                     <button onClick={() => stopAnimation(animation12Ref)}>Stop Animation12</button> */}
                     </div>
-                    <div className='trascription text-dark px-3'>
-                        <p id='transcription'>Glad to have you here. How can I help you today?</p>
-                    </div>
+                   
                     
-                    <div className='VoiceAni voice-ani' style={{ position: 'absolute', bottom:'0px' }}>
+                    {/* <div className='VoiceAni voice-ani' style={{ position: 'absolute', bottom:'0px' }}>
                     <Lottie
                             animationData={MicAni}
                             lottieRef={micAniRef}
@@ -332,9 +360,9 @@ const DisplayAids = () => {
                         <div className='round-animation'>
 
                         </div>
-                        {/* <button onClick={() => playAnimation(micAniRef)}>Play MicAni</button>
-                        <button onClick={() => stopAnimation(micAniRef)}>Stop MicAni</button> */}
-                    </div>
+                        <button onClick={() => playAnimation(micAniRef)}>Play MicAni</button>
+                        <button onClick={() => stopAnimation(micAniRef)}>Stop MicAni</button>
+                    </div> */}
                 </div>
             </div>
             {/* <div className='container-milla'>

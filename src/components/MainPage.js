@@ -30,8 +30,8 @@ function MainPage() {
       <div className="heroGreeting">
       <div className="heading-content d-flex justify-content-between">
           <div className="hero-text">
-            <h2>Hi! <br /> <span>{userName}</span></h2>
-            <p>lets make this day <span>delightful</span> together.</p>
+            <h2>Welcome <br /> <span>{userName}</span></h2>
+            {/* <p>lets make this day <span>delightful</span> together.</p> */}
           </div>
           
            <div className="logout text-danger" id="logout">
@@ -40,38 +40,60 @@ function MainPage() {
         </div>
 
         <div className="motivational-box">
-          <Link to="/AboutMilla#DisplayCopublica"> <img src="assets/images/image.png" alt="" /></Link>
+          <Link to="/displayCopublica"> 
+          <div className="voicebot-voiebot">
+            {/* <img src="assets/images/arrowtop1.png" className="toparrow"/> */}
+            <p>Learn about how voicebots can help</p>
+          </div>
+          </Link>
         </div>
-        <h4 className="mt-4">Trending companions</h4>
+        <h4 className="mt-4">Use cases</h4>
         <div className="little-carousels">
           <div className="content" id="silderVoicebot">
 
-            {/* <Link to="/AboutMilla#AIDSAwareness" className="link">  <div className="voivecard">
+           
+
+            <Link to="/display" className="link">  
+            <div className="voivecard">
+              <h4>Social emotional learning</h4>
+              {/* <img className="card-arrow" src="assets/images/arrow.png"></img> */}
+            </div>
+            </Link>
+            <Link to="/displayNostress" className="link">  
+            <div className="voivecard">
+              <h4>Stess management</h4>
+              {/* <img className="card-arrow" src="assets/images/arrow.png"></img> */}
+            </div>
+            </Link>
+            <Link to="/displayAids" className="link">  
+            <div className="voivecard">
               <h4>AIDS Awareness</h4>
-            </div></Link>
-            <Link to="/AboutMilla#NoMoreStress" className="link">  <div className="voivecard">
-              <h4>No More stess</h4>
-            </div></Link> */}
+              {/* <img className="card-arrow" src="assets/images/arrow.png"></img> */}
+            </div>
+            </Link>
 
-          <Link to="/AboutMilla#sel" className="link">  <img src="assets/images/sel.png" className="d-block" alt="..."/></Link>
-          <Link to="/AboutMilla#NoMoreStress" className="link"><img src="assets/images/mental.png" className="d-block" alt="..."/></Link>
-          <Link to="/AboutMilla#AIDSAwareness" className="link"><img src="assets/images/Aids.png" className="d-block" alt="..."/></Link>
-       
-
+          {/* <Link to="/display" className="link">  <img src="assets/images/sel.png" className="d-block" alt="..."/></Link>
+          <Link to="/displayNostress" className="link"><img src="assets/images/mental.png" className="d-block" alt="..."/></Link>
+          <Link to="/displayAids" className="link"><img src="assets/images/Aids.png" className="d-block" alt="..."/></Link> */}
           </div>
-
         </div>
         <h4>Frequently asked questions</h4>
         <div className="convo-history">
-          <div className="accordion1">
-            <p>I am feeling anxious. What should I do?</p>
+        <Link to="/display" className="link">
+        <div className="accordion1">
+          <p>What is social emotional learning?</p>
           </div>
+        </Link>
+        <Link to="/displayNostress" className="link">
           <div className="accordion1">
-            <p>I am not able to cope with surroundings</p>
+             <p>I am feeling anxious. What should I do?</p>
           </div>
+          </Link>
+          <Link to="displayAids" className="link">
           <div className="accordion1">
-            <p>Can you help with my stress?</p>
+            <p>What is HIV type 2?</p>
           </div>
+          </Link>
 
         </div>
       </div>

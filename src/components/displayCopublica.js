@@ -96,8 +96,9 @@ const DisplayCopublica = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        document.getElementById('msgbtn').innerHTML="One sec.."
         countConversitions++;
-        document.getElementById('transcription').textContent = "Analyzing...";
+      
         newWord = '';
         
         if(countConversitions==2){
@@ -119,7 +120,7 @@ const DisplayCopublica = () => {
             const audioBlob = await responses.blob();
             // const audioBlob = new Blob([audioResponse.data], { type: 'audio/mp3' });
             const audioUrl = URL.createObjectURL(audioBlob);
-            document.getElementById('transcription').textContent = " ";
+       
             // Ensure the audio element is not playing
             if (audioRef.current) {
                 audioRef.current.pause();
@@ -202,7 +203,7 @@ const DisplayCopublica = () => {
                     const audioBlob = await responses.blob();
                     // const audioBlob = new Blob([audioResponse.data], { type: 'audio/mp3' });
                     const audioUrl = URL.createObjectURL(audioBlob);
-                    document.getElementById('transcription').textContent = " ";
+                    
                     // Ensure the audio element is not playing
                     if (audioRef.current) {
                         audioRef.current.pause();
@@ -386,15 +387,15 @@ const DisplayCopublica = () => {
                             animationData={Animation12}
                             lottieRef={animation12Ref}
                         />
-
+                    <button className='msg-btn' id='msgbtn'>Just talk</button>
                         {/* <button onClick={() => playAnimation(animation12Ref)}>Play Animation12</button>
                     <button onClick={() => stopAnimation(animation12Ref)}>Stop Animation12</button> */}
                     </div>
-                    <div className='trascription text-dark px-3'>
+                    {/* <div className='trascription text-dark px-3'>
                         <p id='transcription'>Glad to have you here. How can I help you today?</p>
-                    </div>
+                    </div> */}
 
-                    <div className='VoiceAni voice-ani' style={{ position: 'absolute', bottom: '0px' }}>
+                    {/* <div className='VoiceAni voice-ani' style={{ position: 'absolute', bottom: '0px' }}>
                         <Lottie
                             animationData={MicAni}
                             lottieRef={micAniRef}
@@ -402,10 +403,10 @@ const DisplayCopublica = () => {
                         />
                         <div className='round-animation'>
 
-                        </div>
+                        </div> */}
                         {/* <button onClick={() => playAnimation(micAniRef)}>Play MicAni</button>
                         <button onClick={() => stopAnimation(micAniRef)}>Stop MicAni</button> */}
-                    </div>
+                    {/* </div> */}
                 </div>
             </div>
             {/* <div className='container-milla'>

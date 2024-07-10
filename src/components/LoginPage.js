@@ -20,12 +20,12 @@ function LoginPage()
   console.log("welcome to login page");  
     return(
         <div className="container px-4 mt-5 py-5" id="loginpage">
-        <p className="title-text text-center font-weight-bold text-secondary">
-          Meet your 
-          <br />
-          <span className="text-dark">Empathetic</span> companion
-        </p>
-        <p className="text-center text-danger mb-3">Let’s get started</p>
+          <p className="title-text text-center font-weight-bold text-secondary">
+          Let’s get
+            <br />
+            <span className="text-dark">started</span> 
+          </p>
+        {/* <p className="text-center text-danger mb-3">Let’s get started</p> */}
         <form action="/action_page.php">
           <div className="form-group">
             <input type="email" className="form-control" id="email"  placeholder="Email address:"/>
@@ -77,8 +77,7 @@ function LoginPage()
           </div>
         </div>
         <div className="switch-login mt-2">
-          <p className="text-center mt-2 h6">Don’t have an account? 
-            <Link to="/SignUp">Sign up</Link> 
+          <p className="text-center mt-2 h6">Don’t have an account? <Link to="/SignUp">Sign up</Link> 
             </p>
            
         </div>
@@ -93,7 +92,7 @@ export const CustomButton=()=>
   const login = useGoogleLogin({
     onSuccess: (tokenResponse) => {
       const { access_token } = tokenResponse;
-      const options = {
+      const options = { 
         method: 'GET',
         headers: { Authorization: `Bearer ${access_token}` },
       };
@@ -101,10 +100,10 @@ export const CustomButton=()=>
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          setCookie('name', data.name, 7); // Expires in 7 days
+          setCookie('name', data.given_name, 7); // Expires in 7 days
           setCookie('email', data.email, 7);
           setCookie('picture', data.picture, 7);
-          navigate('/welcome');
+          navigate('/MainPage');
           // Use the user's credentials here
         })
         .catch((error) => {
