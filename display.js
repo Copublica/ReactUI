@@ -13,10 +13,12 @@ const Display = () => {
     const animation12Ref = useRef();
     const micAniRef = useRef();
     const sendButtonRef = useRef();
+    const sendButtonRefMic = useRef();
     const [micSize, setMicSize] = useState(120);
     const [isAudioPlaying, setIsAudioPlaying] = useState(false);
     const [isPressed, setIsPressed] = React.useState(false);
     const currentLocation = useLocation();
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const stopmic = () => {
         if (stream) {
             stream.getTracks().forEach(track => track.stop());
@@ -106,7 +108,7 @@ const Display = () => {
 
     let newWord = '';
     let lastTranscriptTime = Date.now();
-    const alertDelay = 2000; // 3 seconds of silence before showing alert
+    const alertDelay = 1000; // 3 seconds of silence before showing alert
     let finalTranscript = '';
     const stopMicDelay = 10000;
 
@@ -124,10 +126,9 @@ const Display = () => {
     ]);
 
     const handleSubmit = async (e) => {
-        document.getElementById('HoldAndStart').style.display = 'none';
-        document.getElementById('loadingGif').style.display = 'block';
+
         finalTranscript = '';
-        sendButtonRef.current.innerHTML = "One sec..";
+    
         const userMessage = { role: 'user', content: inputData.question };
         const newMessages = [...messages, userMessage];
         setMessages(newMessages);
@@ -184,7 +185,7 @@ const Display = () => {
                     audioRef.current.pause();
                     audioRef.current.currentTime = 0; // Reset the audio to the beginning
                     audioRef.current.src = audioUrl;
-                    sendButtonRef.current.innerHTML = "Just talk";
+                  
                     // Ensure audio is only played once by adding an event listener
                     audioRef.current.onloadedmetadata = () => {
                         setIsAudioPlaying(true); // Audio is about to play
@@ -207,8 +208,6 @@ const Display = () => {
 
     useEffect(() => {
         const connectToSpeechRecognition = async () => {
-          
-
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 setStream(stream);
@@ -277,6 +276,9 @@ const Display = () => {
                         console.log('Triggering click on sendButton');
                         sendButtonRef.current.click();
 
+                        sendButtonRefMic.current.click();
+                        setIsSubmitting(true);
+                        // Set submitting state to true
                     } else {
                         console.error('sendButtonRef is not set');
                     }
@@ -371,16 +373,18 @@ const Display = () => {
                        
                         <button
                             id="HoldAndStart"
-                            className={`btnHoldPress ${isPressed ? 'pulsing' : ''}`}
+                            className={`btnHoldPress mb-2 ${isPressed ? 'pulsing' : ''}`}
                             onMouseDown={startCounter}
                             onMouseUp={stopCounter}
+                            ref={sendButtonRefMic}
                             onMouseLeave={stopCounter} // Ensure the button resets if the cursor leaves the button while pressing
-                            style={buttonStyle}
-                        >
-                            <i className="fa fa-microphone" aria-hidden="true"></i>
-                    </button>
+                            style={buttonStyle}>
+                     
+                    <i className="fa fa-microphone" aria-hidden="true"></i>
+                    </button><br></br>
+                 
                     <img src='assets/images/loading.gif' id="loadinggif"></img>
-                  
+                    <label>Hold to speak</label>
                      {/* <button onClick={() => playAnimation(animation12Ref)}>Play Animation12</button>
                         <button onClick={() => stopAnimation(animation12Ref)}>Stop Animation12</button> */}
                     </div>

@@ -1,98 +1,57 @@
-const { createClient } = require("@deepgram/sdk");
-const express = require("express");
-const http = require("http");
-const fs = require("fs");
-const dotenv = require("dotenv");
-const path = require("path");
-
-dotenv.config();
+const express = require('express');
+const bodyParser = require('body-parser');
+const https = require('https');
+const cors = require('cors');
+const { log } = require('console');
 
 const app = express();
-const server = http.createServer(app);
-app.use(express.json());
+const port = 8080;
 
-const deepgram = createClient('6fa713b27411f9bef12b4aacf3f95f3f20e33304');
+app.use(cors());
+app.use(bodyParser.json());
 
-app.use(express.static("public/"));
-app.use("/audio", express.static("audio"));
-console.log("check server");
-app.post("/api", async (req, res) => {
-  const { body } = req;
-  const { text, model } = body;
+const DEEPGRAM_URL = "https://api.deepgram.com/v1/speak?model=aura-luna-en";
+// const DEEPGRAM_URL = "https://api.deepgram.com/v1/speak?model=aura-luna-hi";
+
+const DEEPGRAM_API_KEY = "6fa713b27411f9bef12b4aacf3f95f3f20e33304"; // Replace with your actual Deepgram API key
+
+app.post('/answer', async (req, res) => {
+  const { answer } = req.body;
+  console.log(answer);
+  if (!answer) {
+    res.status(400).send('No answer provided.');
+    return;
+  }
+
+  const payload = JSON.stringify({ text: answer });
+
+  const requestConfig = {
+    method: "POST",
+    headers: {
+      Authorization: `Token ${DEEPGRAM_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+  };
 
   try {
-    const filePath = await getAudio(text, model);
-    res.json({ audioUrl: filePath });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Internal Server Error");
+    const deepgramReq = https.request(DEEPGRAM_URL, requestConfig, (deepgramRes) => {
+      res.setHeader('Content-Type', 'audio/mpeg');
+      deepgramRes.pipe(res); // Stream Deepgram response to client
+    });
+
+    deepgramReq.on('error', (error) => {
+      console.error('Deepgram request error:', error);
+      res.status(500).send('Error generating audio.');
+    });
+
+    deepgramReq.write(payload);
+    deepgramReq.end();
+  } catch (error) {
+    console.error('Error initiating Deepgram request:', error);
+    res.status(500).send('Error generating audio.');
   }
 });
 
-const getAudio = async (text, model) => {
-  const response = await deepgram.speak.request({ text }, { model });
-  const stream = await response.getStream();
-
-  if (stream) {
-    const buffer = await getAudioBuffer(stream);
-
-    try {
-      // Ensure 'audio' directory exists
-      const audioDirectory = path.join(__dirname, "audio");
-      if (!fs.existsSync(audioDirectory)) {
-        fs.mkdirSync(audioDirectory);
-      }
-
-      // Write audio file to 'audio' directory
-      await new Promise((resolve, reject) => {
-        fs.writeFile(path.join(audioDirectory, "audio.wav"), buffer, (err) => {
-          if (err) {
-            console.error("Error writing audio to file:", err);
-            reject(err);
-          } else {
-            console.log("Audio file written to audio.wav");
-            resolve();
-          }
-        });
-      });
-    } catch (err) {
-      throw err;
-    }
-
-    return "/audio/audio.wav";
-  } else {
-    console.error("Error generating audio:", stream);
-    throw new Error("Error generating audio: Stream is empty");
-  }
-};
-
-// Helper function to convert stream to audio buffer
-const getAudioBuffer = async (response) => {
-  const reader = response.getReader();
-  const chunks = [];
-
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-
-    chunks.push(value);
-  }
-
-  const dataArray = chunks.reduce(
-    (acc, chunk) => Uint8Array.from([...acc, ...chunk]),
-    new Uint8Array(0)
-  );
-
-  return Buffer.from(dataArray.buffer);
-};
-
-// Serve the index.html file on root path
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "/public/index.html"));
-});
-
-// Start the server
-const PORT = process.env.PORT || 3010;
-server.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server running on http://127.0.0.1:${port}`);
 });
