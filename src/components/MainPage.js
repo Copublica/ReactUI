@@ -42,7 +42,7 @@ function MainPage() {
         <div className="motivational-box">
           <Link to="/displayCopublica"> 
           <div className="voicebot-voiebot">
-            {/* <img src="assets/images/arrowtop1.png" className="toparrow"/> */}
+            <img src="assets/images/arrowtop1.png" className="toparrow"/>
             <p>Learn about how voicebots can help</p>
           </div>
           </Link>
@@ -55,13 +55,13 @@ function MainPage() {
 
             <Link to="/display" className="link">  
             <div className="voivecard">
-              <h4>Social emotional learning</h4>
+              <h4>Social Emotional Learning</h4>
               {/* <img className="card-arrow" src="assets/images/arrow.png"></img> */}
             </div>
             </Link>
             <Link to="/displayNostress" className="link">  
             <div className="voivecard">
-              <h4>Stess management</h4>
+              <h4>Stress Management</h4>
               {/* <img className="card-arrow" src="assets/images/arrow.png"></img> */}
             </div>
             </Link>
@@ -81,7 +81,7 @@ function MainPage() {
         <div className="convo-history">
         <Link to="/display" className="link">
         <div className="accordion1">
-          <p>What is social emotional learning?</p>
+          <p>What is Social Emotional Learning?</p>
           </div>
         </Link>
         <Link to="/displayNostress" className="link">
@@ -89,7 +89,7 @@ function MainPage() {
              <p>I am feeling anxious. What should I do?</p>
           </div>
           </Link>
-          <Link to="displayAids" className="link">
+          <Link to="/displayAids" className="link">
           <div className="accordion1">
             <p>What is HIV type 2?</p>
           </div>
