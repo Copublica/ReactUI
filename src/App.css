@@ -39,6 +39,41 @@
 .App-link {
   color: #61dafb;
 }
+#HoldAndStart{
+    padding: 10px;
+    border-radius: 60%;
+    width: 80px;
+    height: 80px;
+    background-color: green;
+    border: navajowhite;
+}
+.fa-microphone{
+  color: #fff;
+  font-size: 30px;
+}
+#loadinggif{
+  display: none;
+  width: 80px;
+}
+
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(255, 0, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+  }
+}
+
+.pulsing {
+  animation: pulse 1.5s infinite;
+}
+
+
 
 @keyframes App-logo-spin {
   from {
@@ -547,7 +582,7 @@ position: absolute;
 border:none;
 background: transparent;
 top: 0;
-left: 80px;
+left: 60px;
 }
 #googleicons{
 position: absolute;
@@ -556,13 +591,13 @@ left: 100px;
 z-index: -9;
 }
 #facebook{
-  left: 145px;
+  left: 120px;
   position:absolute;
 
 }
 #linkdin{
   position: absolute;
-  left: 215px;
+  left: 180px;
 }
 #logout{
   cursor: pointer;
@@ -647,7 +682,7 @@ z-index: -9;
   text-align: center;
   position: relative;
   bottom: 0px;
-  margin-top: 80px;
+  margin-top: 25px;
   
 }
 
@@ -667,3 +702,66 @@ z-index: -9;
   bottom: 0;
   transition: width 0.5s ease;
 }
+
+
+ /* welcomelogin page css */
+
+ .auth-container{
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ }
+
+ .logo img{
+  width: 200px;
+ }
+
+
+.welcome-button{
+  width: 180px;
+  height: 40px;
+  text-align: center;
+  margin: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+  color:#fff;
+  background:linear-gradient(136deg, rgba(59, 32, 225, 39%) 1%, #3B20E1 -14%, #15057B 24%, #090232 63%, #000000 100%);
+
+}
+.w-custom-google-btn{
+  width: 180px;
+  height: 40px;
+  border:none;
+  position: relative;
+  border-radius: 2px;
+  background:linear-gradient(136deg, rgba(59, 32, 225, 39%) 1%, #3B20E1 -14%, #15057B 24%, #090232 63%, #000000 100%);
+  color: #fff;
+}
+
+.w-google-icon{
+  width: 16px;
+}
+.w-google-text{
+  padding: 9px;
+  font-size: 12px;
+  color: #fff;
+  font-weight: bold;
+} 
+.line{
+  border: 2px solid #8C8895;
+  width: 100%;
+  margin-top: 30px;
+  height: 0px !important;
+  border-radius: 2px;
+}  
+.w-p-text{
+  font-size: 14px;;
+}
+
